@@ -11,6 +11,15 @@ export default function TrainingList() {
 
   const columnDefs = [
     {
+      headerName: 'Customer',
+      field: 'customer',
+      /* valueGetter: params => params.data.customer.name, */
+      sortable: true,
+      filter: true,
+      floatingFilter: true,
+      minWidth: 300
+    },
+    {
       headerName: 'Date', field: 'date',
       valueFormatter: params => format(new Date(params.value), 'dd.MM.yyyy HH:mm'),
       sortable: true,
@@ -29,15 +38,6 @@ export default function TrainingList() {
     {
       headerName: 'Activity',
       field: 'activity',
-      sortable: true,
-      filter: true,
-      floatingFilter: true,
-      minWidth: 300
-    },
-    {
-      headerName: 'Customer',
-      field: 'customer',
-      /* valueGetter: params => params.data.customer.name, */
       sortable: true,
       filter: true,
       floatingFilter: true,
