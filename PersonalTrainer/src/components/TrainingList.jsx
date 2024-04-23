@@ -9,11 +9,28 @@ export default function TrainingList() {
 
   const [trainings, setTrainings] = useState([]);
 
+  const URL = 'https://customerrestservice-personaltraining.rahtiapp.fi/gettrainings';
+
   const columnDefs = [
     {
-      headerName: 'Customer',
-      field: 'customer',
-      /* valueGetter: params => params.data.customer.name, */
+      headerName: 'Customer first name',
+      field: 'customer.firstname',
+      sortable: true,
+      filter: true,
+      floatingFilter: true,
+      minWidth: 300
+    },
+    {
+      headerName: 'Customer last name',
+      field: 'customer.lastname',
+      sortable: true,
+      filter: true,
+      floatingFilter: true,
+      minWidth: 300
+    },
+    {
+      headerName: 'Activity',
+      field: 'activity',
       sortable: true,
       filter: true,
       floatingFilter: true,
@@ -34,15 +51,8 @@ export default function TrainingList() {
       filter: true,
       floatingFilter: true,
       minWidth: 300
-    },
-    {
-      headerName: 'Activity',
-      field: 'activity',
-      sortable: true,
-      filter: true,
-      floatingFilter: true,
-      minWidth: 300
     }
+ 
   ];
 
   useEffect(() => {
@@ -50,16 +60,16 @@ export default function TrainingList() {
   }, []);
 
   const getTrainings = () => {
-    fetch("https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings")
+    fetch(URL)
       .then(response => response.json())
       .then(responseData => {
-        setTrainings(responseData._embedded.trainings);
+        setTrainings(responseData);
       })
       .catch(error => console.error(error));
   }
   return (
     <>
-      <div className="ag-theme-material" style={{ height: 600, width: '120%', margin: 'auto' }}>
+      <div className="ag-theme-material" style={{ height: 700, width: 2000, margin: 'auto' }}>
 
         <AgGridReact
           rowData={trainings}

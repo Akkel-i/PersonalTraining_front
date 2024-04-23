@@ -53,7 +53,7 @@ export default function CustomerList() {
     return (
         <>
             <h1>Tässä lista asiakkaista</h1>
-            <div className="ag-theme-material" style={{ height: 600, width: 2500 }}>
+            <div className="ag-theme-material" style={{ height: 600, width: 2000, margin:'auto' }}>
                 <AgGridReact
                     rowData={customers}
                     columnDefs={colDefs}
