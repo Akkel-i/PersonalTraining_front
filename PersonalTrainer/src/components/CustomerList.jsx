@@ -5,6 +5,8 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 
+import AddCustomer from './AddCustomer';
+
 /* import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -14,7 +16,16 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper'; */
 
 export default function CustomerList() {
-    const [customers, setCustomers] = useState([{ firstname: '', lastname: '', streetaddress: '', postcode: '', city: '', email: '', phone: '' }]);
+    const [customers, setCustomers] = useState([{
+        firstname: '',
+        lastname: '',
+        streetaddress: '',
+        postcode: '',
+        city: '',
+        email: '',
+        phone: ''
+    }]);
+
     const URL = 'https://customerrestservice-personaltraining.rahtiapp.fi/api/customers';
 
 
@@ -23,7 +34,7 @@ export default function CustomerList() {
 
 
 
-
+    // hae asiakkaat
     const getCustomers = () => {
         fetch(URL, { method: 'GET' })
             .then(response => {
@@ -36,10 +47,30 @@ export default function CustomerList() {
             .catch(error => console.error('Error fetching data:', error));
     }
 
-/*     const colDefs = [
-        { headerName: 'First Name', field: 'firstname' },
-        { headerName: 'Last Name', field: 'lastname' }
-    ]; */
+    // tallenna uusi asiakas
+    const saveCustomer = (customer) => {
+        fetch('https://customerrestservice-personaltraining.rahtiapp.fi/api/customers', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(customer)
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json;
+                } else {
+                    throw new Error('Error in sending data to server');
+                }
+            }
+            )
+            .then(data => {
+                getCustomers();
+            })
+            .catch(err => console.error(err))
+    };
+
+
     const [colDefs, setColDefs] = useState([
         { headerName: 'First Name', field: 'firstname', sortable: true, filter: true, floatingFilter: true, minWidth: 300 },
         { headerName: 'Last Name', field: 'lastname', sortable: true, filter: true, floatingFilter: true, minWidth: 300 },
@@ -53,12 +84,16 @@ export default function CustomerList() {
     return (
         <>
             <h1>Tässä lista asiakkaista</h1>
-            <div className="ag-theme-material" style={{ height: 600, width: 2000, margin:'auto' }}>
+            <div className="ag-theme-material" style={{ height: 600, width: 2000, margin: 'auto' }}>
                 <AgGridReact
                     rowData={customers}
                     columnDefs={colDefs}
+                    pagination={true}
+                    paginationPageSize={10}
                 />
             </div>
+
+            <AddCustomer saveCustomer={saveCustomer} />
         </>
 
     );
