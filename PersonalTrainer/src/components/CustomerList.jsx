@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 
 
 import AddCustomer from './AddCustomer';
+import EditCustomer from './EditCustomer';
 
 /* import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -51,7 +52,7 @@ export default function CustomerList() {
 
     // tallenna uusi asiakas
     const saveCustomer = (customer) => {
-        fetch('https://customerrestservice-personaltraining.rahtiapp.fi/api/customers', {
+        fetch(URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -92,6 +93,19 @@ export default function CustomerList() {
         }
     }
 
+    // Muokkaa asiakasta
+    const editCustomer = (customer, url) => {
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(customer)
+        })
+        .then(response => getCustomers())
+        .catch(err => console.error(err))
+    };
+
 
     const [colDefs, setColDefs] = useState([
         { headerName: 'First Name', field: 'firstname', sortable: true, filter: true, floatingFilter: true, minWidth: 300 },
@@ -101,6 +115,10 @@ export default function CustomerList() {
         { field: 'city', sortable: true, filter: true, floatingFilter: true, minWidth: 200 },
         { field: 'email', sortable: true, filter: true, floatingFilter: true, minWidth: 200 },
         { field: 'phone', sortable: true, filter: true, floatingFilter: true, minWidth: 200 },
+        {
+            cellRenderer: (params) =>
+                <EditCustomer editCustomer={editCustomer} params={params}/>
+        },
         {
             cellRenderer: (params) =>
                 <Button size="small" color="error" onClick={() => deleteCustomer(params)}>Delete</Button>, width: 90
