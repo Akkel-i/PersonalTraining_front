@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
+import Button from '@mui/material/Button';
+
 
 import AddCustomer from './AddCustomer';
 
@@ -71,6 +73,26 @@ export default function CustomerList() {
     };
 
 
+    // poista asiakas
+    const deleteCustomer = (params) => {
+
+        if (window.confirm("Are you sure?")) {
+            //console.log(params)
+            fetch(params.data._links.customer.href, { method: 'DELETE' })
+                .then(response => {
+                    if (response.ok) {
+                        window.alert("Customer has been deleted")
+                        getCustomers();
+                    }
+                    else {
+                        window.alert("some error")
+                    }
+                })
+                .catch(err => console.error(err))
+        }
+    }
+
+
     const [colDefs, setColDefs] = useState([
         { headerName: 'First Name', field: 'firstname', sortable: true, filter: true, floatingFilter: true, minWidth: 300 },
         { headerName: 'Last Name', field: 'lastname', sortable: true, filter: true, floatingFilter: true, minWidth: 300 },
@@ -78,7 +100,11 @@ export default function CustomerList() {
         { field: 'postcode', sortable: true, filter: true, floatingFilter: true, minWidth: 200 },
         { field: 'city', sortable: true, filter: true, floatingFilter: true, minWidth: 200 },
         { field: 'email', sortable: true, filter: true, floatingFilter: true, minWidth: 200 },
-        { field: 'phone', sortable: true, filter: true, floatingFilter: true, minWidth: 200 }
+        { field: 'phone', sortable: true, filter: true, floatingFilter: true, minWidth: 200 },
+        {
+            cellRenderer: (params) =>
+                <Button size="small" color="error" onClick={() => deleteCustomer(params)}>Delete</Button>, width: 90
+        }
     ]);
 
     return (
