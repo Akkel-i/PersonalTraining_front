@@ -7,6 +7,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 
+import InputAdornment from '@mui/material/InputAdornment';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+
 export default function AddCustomer(props) {
 
     const [customer, setCustomer] = useState({
@@ -30,7 +33,19 @@ export default function AddCustomer(props) {
     };
 
     const addCustomer = () => {
+        // tallentaa uuden asiakkaan
         props.saveCustomer(customer);
+        // tyhjentää tekstikentät uudelle asiakkaalle, ettei tule samoja tietoja
+        setCustomer({
+            firstname: '',
+            lastname: '',
+            streetaddress: '',
+            postcode: '',
+            city: '',
+            email: '',
+            phone: ''
+        });
+        // sulje 
         handleCancel();
     };
 
@@ -49,13 +64,22 @@ export default function AddCustomer(props) {
 
                 <DialogContent>
 
+
                     <TextField
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <AccountCircle />
+                                </InputAdornment>
+                            ),
+                        }}
                         margin='dense'
                         label="First name"
                         name="firstname"
                         value={customer.firstname}
                         onChange={(e) => setCustomer({ ...customer, [e.target.name]: e.target.value })}
-                        variant="standard">
+                        variant="standard"
+                        required> {/* ei toimi kunnolla? */}
                     </TextField>
 
                     <TextField

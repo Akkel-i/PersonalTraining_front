@@ -7,6 +7,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 
+import InputAdornment from '@mui/material/InputAdornment';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+
+
 export default function EditCustomer(props) {
 
     const [customer, setCustomer] = useState({
@@ -55,6 +59,13 @@ export default function EditCustomer(props) {
                 </DialogTitle>
                 <DialogContent>
                     <TextField
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <AccountCircle />
+                                </InputAdornment>
+                            ),
+                        }}
                         margin='dense'
                         label="First name"
                         name="firstname"
@@ -74,7 +85,7 @@ export default function EditCustomer(props) {
 
                     <TextField
                         margin="dense"
-                        label="Streetaddress"
+                        label="Street address"
                         name="streetaddress"
                         value={customer.streetaddress}
                         onChange={(e) => setCustomer({ ...customer, streetaddress: e.target.value })}

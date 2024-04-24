@@ -52,7 +52,7 @@ export default function TrainingList() {
       floatingFilter: true,
       minWidth: 300
     }
- 
+
   ];
 
   useEffect(() => {
@@ -69,6 +69,8 @@ export default function TrainingList() {
   }
   return (
     <>
+      <h1>Tässä lista kaikista treeneistä</h1>
+
       <div className="ag-theme-material" style={{ height: 700, width: 2000, margin: 'auto' }}>
 
         <AgGridReact

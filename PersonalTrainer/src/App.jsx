@@ -18,15 +18,23 @@ function App() {
           <Typography variant="h5">Trainig app</Typography>
 
           <nav>
+          <Link to="/">
             <Button variant="contained" color="inherit" style={{ margin: "10px" }}>
-              <Link to="/">Home</Link>
+              <p>Home</p>
             </Button>
+            </Link>
+
+            <Link to="/customerlist">
             <Button variant="contained" color="inherit" style={{ margin: "10px" }}>
-              <Link to="/customerlist">Customers</Link>
+            <p>Customers</p>
             </Button>
+            </Link>
+
+            <Link to="/traininglist">
             <Button variant="contained" color="inherit" style={{ margin: "10px" }}>
-              <Link to="/traininglist">Training</Link>
+              <p>Traing</p>
             </Button>
+            </Link>
           </nav>
         </Toolbar>
       </AppBar>
