@@ -1,9 +1,10 @@
-
+import * as React from 'react';
 import { AgGridReact } from "ag-grid-react";
 import { useEffect, useState } from "react";
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
 import { format } from "date-fns";
+import Button from '@mui/material/Button';
 
 export default function TrainingList() {
 
@@ -11,7 +12,10 @@ export default function TrainingList() {
 
   const URL = 'https://customerrestservice-personaltraining.rahtiapp.fi/gettrainings';
 
-  const columnDefs = [
+  const URLdelete = 'https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings/';
+  var combineURL = "";
+
+  const [columnDefs, setColumnDefs] = useState([
     {
       headerName: 'Customer first name',
       field: 'customer.firstname',
@@ -51,14 +55,20 @@ export default function TrainingList() {
       filter: true,
       floatingFilter: true,
       minWidth: 300
+    },
+    {
+      cellRenderer: (params) =>
+        <Button size="small" color="error" onClick={() => deleteTraining(params)}>Delete</Button>, width: 90
     }
 
-  ];
+  ]);
 
+  // hae treenit ekalla renderillä
   useEffect(() => {
     getTrainings();
   }, []);
 
+  // fetchaa treenit
   const getTrainings = () => {
     fetch(URL)
       .then(response => response.json())
@@ -67,6 +77,29 @@ export default function TrainingList() {
       })
       .catch(error => console.error(error));
   }
+
+  // poista treeni
+  const deleteTraining = (params) => {
+
+    if (window.confirm("Are you sure?")) {
+      //console.log(params)
+      //console.log(URLdelete + params.data.id)
+      combineURL = (URLdelete + params.data.id)
+      //console.log(combineURL)
+      fetch(combineURL, { method: 'DELETE' })
+        .then(response => {
+          if (response.ok) {
+            window.alert("Training has been deleted")
+            getTrainings();
+          }
+          else {
+            window.alert("some error")
+          }
+        })
+        .catch(err => console.error(err))
+    }
+  }
+
   return (
     <>
       <h1>Tässä lista kaikista treeneistä</h1>
