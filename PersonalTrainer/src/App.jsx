@@ -35,6 +35,12 @@ function App() {
               <p>Traing</p>
             </Button>
             </Link>
+
+            <Link to="/trainingcalendar">
+            <Button variant="contained" color="inherit" style={{ margin: "10px" }}>
+              <p>Training Calendar</p>
+            </Button>
+            </Link>
           </nav>
         </Toolbar>
       </AppBar>

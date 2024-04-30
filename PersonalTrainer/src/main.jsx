@@ -10,6 +10,7 @@ import Home from './components/Home';
 import CustomerList from './components/CustomerList';
 import TrainingList from './components/TrainingList';
 import Error from './components/Error';
+import TrainingCalendar from './components/Calendar';
 
 const router = createBrowserRouter([
   {
@@ -22,12 +23,17 @@ const router = createBrowserRouter([
         index: true
       },
       {
-        path: "customerlist",
+        path: "/customerlist",
         element: <CustomerList />,
       },
       {
-        path: "traininglist",
+        path: "/traininglist",
         element: <TrainingList />,
+      },
+
+      {
+        path: "/trainingcalendar",
+        element: <TrainingCalendar />,
       },
     ]
   }
