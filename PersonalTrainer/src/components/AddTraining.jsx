@@ -6,18 +6,20 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker, LocalizationProvider, DateTimePicker, TimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 
 export default function AddTraining(props) {
 
+    // customer: "https://customerrestservice-personaltraining.rahtiapp.fi/api/customers/3609"
+    // ylläoleva muoto linkittää asiakkaan treeniin
 
     const [inputTraining, setInputTraining] = useState({
         activity: '',
         date: null,
-        duration: ''
-
+        duration: '',
+        customer: ''
     });
 
     const [training, setTraining] = useState({
@@ -88,8 +90,8 @@ export default function AddTraining(props) {
                     </TextField>
 
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker name="date" value={inputTraining.date} onChange={(date) => {
-                            console.log("tallennuksesta lähtee:", date.toString());
+                        <DateTimePicker name="date" value={inputTraining.date} onChange={(date) => {
+                            //console.log("tallennuksesta lähtee:", date.toString());
                             setInputTraining({ ...inputTraining, date: date })
                             setTraining({ ...training, date: date.toString() })
                         }}

@@ -59,16 +59,16 @@ export default function TrainingCalendar() {
     const calendarEvents = trainings.map(training => ({
         id: training.id,
         title: (
-            <>
-                {training.customer.firstname} {training.customer.lastname}: {training.activity}
-            </>
-        ),
-        /*         title: (
+            // error chekingiä, joskus ei ole customer tietoja jos niitä muuteltu..
+            <div>
+                {training.customer ? (
                     <>
-                        {training.customer.firstname} {training.customer.lastname} <br />
-                        {training.activity}
+                        {training.customer.firstname ? training.customer.firstname : 'Unknown'}{' '}
+                        {training.customer.lastname ? training.customer.lastname : 'Unknown'}: {training.activity} 
                     </>
-                ), */
+                ) : 'Unknown Customer and activity'}
+            </div>
+        ),
         start: new Date(training.date),
         end: moment(training.date).add(training.duration, 'minutes').toDate()
     }))
@@ -78,7 +78,7 @@ export default function TrainingCalendar() {
 
 
     return (
-        <div className="App" style={{margin: '10px'}}>
+        <div className="App" style={{ margin: '10px' }}>
             {<Calendar
                 localizer={localizer}
                 defaultDate={new Date()}
