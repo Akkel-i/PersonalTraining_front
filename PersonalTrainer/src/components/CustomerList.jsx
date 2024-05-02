@@ -10,6 +10,7 @@ import { CSVLink, CSVDownload } from "react-csv";
 
 import AddCustomer from './AddCustomer';
 import EditCustomer from './EditCustomer';
+import AddTraining from './AddTraining';
 
 /* import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -31,6 +32,7 @@ export default function CustomerList() {
     }]);
 
     const URL = 'https://customerrestservice-personaltraining.rahtiapp.fi/api/customers';
+    const URLnewTraining = 'https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings';
 
 
 
@@ -123,6 +125,10 @@ export default function CustomerList() {
         {
             cellRenderer: (params) =>
                 <Button size="small" color="error" onClick={() => deleteCustomer(params)}>Delete</Button>, width: 90
+        },
+        {
+            cellRenderer: (params) =>
+                <AddTraining saveTraining={saveTraining} params={params} />
         }
     ]);
 
@@ -166,10 +172,29 @@ export default function CustomerList() {
     ];
 
 
+    //tallenna uusi treeni
+    const saveTraining = (training) => {
+        fetch(URLnewTraining, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(training)
+        })
+            .then(response => {
+                if (response.ok) {
+                    getCustomers();
+                } else {
+                    window.alert("error in saving training")
+                }
+            })
+            .catch(err => console.error(err))
+    };
+
     return (
         <>
             <h1>Tässä lista asiakkaista</h1>
-            <div className="ag-theme-material" style={{ height: 600, width: 2000, margin: 'auto' }}>
+            <div className="ag-theme-material" style={{ height: 600, width: 2200, margin: 'auto' }}>
                 <AgGridReact
                     rowData={customers}
                     columnDefs={colDefs}
@@ -180,7 +205,7 @@ export default function CustomerList() {
 
             <AddCustomer saveCustomer={saveCustomer} />
 
-            <Button variant="outlined" onClick={console.log(csvData)}>
+            <Button variant="outlined" /* onClick={console.log(csvData)} */>
                 <CSVLink
                     data={csvData}
                     headers={headerss}

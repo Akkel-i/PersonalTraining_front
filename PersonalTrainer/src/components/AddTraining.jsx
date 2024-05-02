@@ -19,20 +19,23 @@ export default function AddTraining(props) {
         activity: '',
         date: null,
         duration: '',
-        customer: ''
+        customer: null
     });
 
     const [training, setTraining] = useState({
         activity: '',
         date: '',
-        duration: ''
-
+        duration: '',
+        customer: null
     });
 
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
+        setTraining({
+            customer: props.params.data._links.customer.href
+        })
     };
 
     const handleCancel = () => {
@@ -45,6 +48,7 @@ export default function AddTraining(props) {
         handleCancel();
     };
 
+    //useEffect(() => console.log(props), []); 
 
 
     return (
