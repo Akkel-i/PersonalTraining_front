@@ -6,6 +6,8 @@ import 'ag-grid-community/styles/ag-theme-material.css';
 import { format } from "date-fns";
 import Button from '@mui/material/Button';
 
+import AddTraining from './AddTraining';
+
 export default function TrainingList() {
 
   const [trainings, setTrainings] = useState([]);
@@ -14,6 +16,8 @@ export default function TrainingList() {
 
   const URLdelete = 'https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings/';
   var combineURL = "";
+
+  const URLnewTraining = 'https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings';
 
   const [columnDefs, setColumnDefs] = useState([
     {
@@ -100,6 +104,25 @@ export default function TrainingList() {
     }
   }
 
+  //tallenna uusi treeni
+  const saveTraining = (training) => {
+    fetch(URLnewTraining, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(training)
+    })
+      .then(response => {
+        if (response.ok) {
+          getTrainings();
+        } else {
+          window.alert("error in saving training")
+        }
+      })
+      .catch(err => console.error(err))
+  };
+
   return (
     <>
       <h1>Tässä lista kaikista treeneistä</h1>
@@ -113,6 +136,7 @@ export default function TrainingList() {
           paginationPageSize={9}
         />
       </div>
+      <AddTraining saveTraining={saveTraining} />
     </>
   );
 }

@@ -138,8 +138,8 @@ export default function AddCustomer(props) {
                 </DialogContent>
 
                 <DialogActions>
-                    <Button onClick={addCustomer}>Save customer</Button>
-                    <Button onClick={handleCancel}>Cancel</Button>
+                    <Button onClick={addCustomer} color="success">Save customer</Button>
+                    <Button onClick={handleCancel} color="error">Cancel</Button>
                 </DialogActions>
             </Dialog>
         </>
