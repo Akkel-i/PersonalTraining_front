@@ -5,6 +5,7 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import Button from '@mui/material/Button';
+import { CSVLink, CSVDownload } from "react-csv";
 
 
 import AddCustomer from './AddCustomer';
@@ -102,8 +103,8 @@ export default function CustomerList() {
             },
             body: JSON.stringify(customer)
         })
-        .then(response => getCustomers())
-        .catch(err => console.error(err))
+            .then(response => getCustomers())
+            .catch(err => console.error(err))
     };
 
 
@@ -117,13 +118,53 @@ export default function CustomerList() {
         { field: 'phone', sortable: true, filter: true, floatingFilter: true, minWidth: 200 },
         {
             cellRenderer: (params) =>
-                <EditCustomer editCustomer={editCustomer} params={params}/>
+                <EditCustomer editCustomer={editCustomer} params={params} />
         },
         {
             cellRenderer: (params) =>
                 <Button size="small" color="error" onClick={() => deleteCustomer(params)}>Delete</Button>, width: 90
         }
     ]);
+
+    // CSV dataan headers?
+    const headerss = [
+        { label: "First Name", key: "firstname" },
+        { label: "Last Name", key: "lastname" },
+        { label: "Street Address", key: "streetaddress" },
+        { label: "Postcode", key: "postcode" },
+        { label: "City", key: "city" },
+        { label: "Email", key: "email" },
+        { label: "Phone", key: "phone" }
+    ];
+
+    // CSV data testilataus tiedot
+    /*     const csvData = [
+            ["firstname", "lastname", "email"],
+            ["Ahmed", "Tomi", "ah@smthing.co.com"],
+            ["Raed", "Labes", "rl@smthing.co.com"],
+            ["Yezzi", "Min l3b", "ymin@cocococo.com"]
+        ]; */
+
+    // filtteröi pois _links customers datasta
+    const filteredCustomers = customers.map(customer => {
+        const { _links, ...filteredCustomer } = customer;
+        return filteredCustomer;
+    });
+
+    // csv datan mappausta, ei toimi?
+    const csvData = [
+        ["firstname", "lastname", "streetaddress", "postcode", "city", "email", "phone"],
+        ...filteredCustomers.map(({ firstname, lastname, streetaddress, postcode, city, email, phone }) => [
+            firstname,
+            lastname,
+            streetaddress,
+            postcode,
+            city,
+            email,
+            phone
+        ]),
+    ];
+
 
     return (
         <>
@@ -138,6 +179,17 @@ export default function CustomerList() {
             </div>
 
             <AddCustomer saveCustomer={saveCustomer} />
+
+            <Button variant="outlined" onClick={console.log(csvData)}>
+                <CSVLink
+                    data={csvData}
+                    headers={headerss}
+                    filename={"customer_list.csv"}
+                    className="btn btn-primary"
+                    target="_blank" >
+                    Download Customer List in CSV
+                </CSVLink>
+            </Button>
         </>
 
     );
