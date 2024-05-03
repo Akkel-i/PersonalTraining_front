@@ -52,7 +52,7 @@ export default function AddCustomer(props) {
 
     return (
         <>
-            <Button variant="outlined" onClick={handleClickOpen}>
+            <Button variant="outlined" color="success" onClick={handleClickOpen}>
                 Add new Customer
             </Button>
 

@@ -193,8 +193,8 @@ export default function CustomerList() {
 
     return (
         <>
-            <h1>Tässä lista asiakkaista</h1>
-            <div className="ag-theme-material" style={{ height: 600, width: 2200, margin: 'auto' }}>
+            <h1>Heres a list of all customers</h1>
+            <div className="ag-theme-material" style={{ height: 800, width: 2200, margin: 'auto' }}>
                 <AgGridReact
                     rowData={customers}
                     columnDefs={colDefs}
@@ -211,7 +211,9 @@ export default function CustomerList() {
                     headers={headerss}
                     filename={"customer_list.csv"}
                     className="btn btn-primary"
-                    target="_blank" >
+                    target="_blank"
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                >
                     Download Customer List in CSV
                 </CSVLink>
             </Button>

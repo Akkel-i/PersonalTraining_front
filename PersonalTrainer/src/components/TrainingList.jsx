@@ -127,16 +127,16 @@ export default function TrainingList() {
     <>
       <h1>Tässä lista kaikista treeneistä</h1>
 
-      <div className="ag-theme-material" style={{ height: 700, width: 2000, margin: 'auto' }}>
+      <div className="ag-theme-material" style={{ height: 800, width: 2000, margin: 'auto' }}>
 
         <AgGridReact
           rowData={trainings}
           columnDefs={columnDefs}
           pagination={true}
-          paginationPageSize={9}
+          paginationPageSize={10}
         />
       </div>
-      <AddTraining saveTraining={saveTraining} />
-    </>
+{/*       <AddTraining saveTraining={saveTraining} />
+ väärä paikka linkitykselle*/}    </>
   );
 }

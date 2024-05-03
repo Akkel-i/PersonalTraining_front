@@ -11,6 +11,7 @@ import CustomerList from './components/CustomerList';
 import TrainingList from './components/TrainingList';
 import Error from './components/Error';
 import TrainingCalendar from './components/Calendar';
+import Stats from './components/Stats';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,11 @@ const router = createBrowserRouter([
       {
         path: "/trainingcalendar",
         element: <TrainingCalendar />,
+      },
+
+      {
+        path: "/stats",
+        element: <Stats />,
       },
     ]
   }
