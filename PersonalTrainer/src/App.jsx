@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 //import './App.css'
 import { AppBar, Toolbar, Typography } from "@mui/material"
 import Button from '@mui/material/Button';
+import { HashRouter } from "react-router-dom";
 
 
 
