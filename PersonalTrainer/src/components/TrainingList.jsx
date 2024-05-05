@@ -5,6 +5,8 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
 import { format } from "date-fns";
 import Button from '@mui/material/Button';
+import { Snackbar } from "@mui/material";
+
 
 import AddTraining from './AddTraining';
 
@@ -18,6 +20,10 @@ export default function TrainingList() {
   var combineURL = "";
 
   const URLnewTraining = 'https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings';
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [msgSnackbar, setMsgSnackbar] = useState("")
+
 
   const [columnDefs, setColumnDefs] = useState([
     {
@@ -93,7 +99,9 @@ export default function TrainingList() {
       fetch(combineURL, { method: 'DELETE' })
         .then(response => {
           if (response.ok) {
-            window.alert("Training has been deleted")
+            //window.alert("Training has been deleted")
+            setMsgSnackbar("Training has been deleted!");
+            setOpenSnackbar(true);  
             getTrainings();
           }
           else {
@@ -115,6 +123,8 @@ export default function TrainingList() {
     })
       .then(response => {
         if (response.ok) {
+          setMsgSnackbar("Training has been saved!!");
+          setOpenSnackbar(true);
           getTrainings();
         } else {
           window.alert("error in saving training")
@@ -125,7 +135,7 @@ export default function TrainingList() {
 
   return (
     <>
-      <h1>Tässä lista kaikista treeneistä</h1>
+      <h1>This is a list of all the trainings</h1>
 
       <div className="ag-theme-material" style={{ height: 800, width: 2000, margin: 'auto' }}>
 
@@ -136,7 +146,15 @@ export default function TrainingList() {
           paginationPageSize={10}
         />
       </div>
-{/*       <AddTraining saveTraining={saveTraining} />
- väärä paikka linkitykselle*/}    </>
+      {/*       <AddTraining saveTraining={saveTraining} />
+ väärä paikka linkitykselle*/}
+      <Snackbar
+        open={openSnackbar}
+        message={msgSnackbar}
+        autoHideDuration={4000}
+        onClose={() => setOpenSnackbar(false)}
+      >
+      </Snackbar>
+    </>
   );
 }

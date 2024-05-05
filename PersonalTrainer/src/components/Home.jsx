@@ -6,7 +6,7 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Welcome to perosnal trainer training app</h1>
+      <h1>Welcome to personal trainer training app</h1>
 
       <img src={muscleLogo} alt="Big biceps" />
     </div>

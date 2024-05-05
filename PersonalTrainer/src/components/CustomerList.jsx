@@ -6,6 +6,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
 import Button from '@mui/material/Button';
 import { CSVLink, CSVDownload } from "react-csv";
+import { Snackbar } from "@mui/material";
 
 
 import AddCustomer from './AddCustomer';
@@ -34,6 +35,8 @@ export default function CustomerList() {
     const URL = 'https://customerrestservice-personaltraining.rahtiapp.fi/api/customers';
     const URLnewTraining = 'https://customerrestservice-personaltraining.rahtiapp.fi/api/trainings';
 
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [msgSnackbar, setMsgSnackbar] = useState("")
 
 
     useEffect(() => getCustomers(), []); // haetaan asiakkaat ensimmäisella render kerralla.
@@ -64,7 +67,10 @@ export default function CustomerList() {
         })
             .then(response => {
                 if (response.ok) {
+                    setMsgSnackbar("A new customer has been saved!");
+                    setOpenSnackbar(true);
                     return response.json;
+                    
                 } else {
                     throw new Error('Error in sending data to server');
                 }
@@ -85,11 +91,15 @@ export default function CustomerList() {
             fetch(params.data._links.customer.href, { method: 'DELETE' })
                 .then(response => {
                     if (response.ok) {
-                        window.alert("Customer has been deleted")
+                        //window.alert("Customer has been deleted")
+                        setMsgSnackbar("Customer has been deleted!");
+                        setOpenSnackbar(true);
                         getCustomers();
                     }
                     else {
-                        window.alert("some error")
+                        //window.alert("some error")
+                        setMsgSnackbar("We have encountered some error in deletion, not complete");
+                        setOpenSnackbar(true);
                     }
                 })
                 .catch(err => console.error(err))
@@ -105,7 +115,15 @@ export default function CustomerList() {
             },
             body: JSON.stringify(customer)
         })
-            .then(response => getCustomers())
+            .then(response => {
+                if (response.ok) {
+                    //window.alert("Customer has been updated")
+                    setMsgSnackbar("Customer has been updated!");
+                    setOpenSnackbar(true);
+                    getCustomers();
+                }
+            }
+            )
             .catch(err => console.error(err))
     };
 
@@ -217,6 +235,14 @@ export default function CustomerList() {
                     Download Customer List in CSV
                 </CSVLink>
             </Button>
+             <Snackbar
+                open={openSnackbar}
+                message={msgSnackbar}
+                autoHideDuration={4000}
+                onClose={() => setOpenSnackbar(false)}
+            >
+            </Snackbar> 
+
         </>
 
     );
