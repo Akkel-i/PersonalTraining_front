@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-//import './App.css'
+import './App.css'
 import { AppBar, Toolbar, Typography  } from "@mui/material"
 import Button from '@mui/material/Button';
 import { HashRouter } from "react-router-dom";
@@ -69,7 +69,7 @@ function App() {
   return (
     <>
           <nav>
-      {/* <div className='App'> */}
+       <div className='App'> 
         <AppBar position="relative">
           <Toolbar>
             <Typography variant="h5">Training app</Typography>
@@ -77,7 +77,6 @@ function App() {
           </Toolbar>
         </AppBar>
         <Outlet />
-      {/* </div> */}
 
         <Routes>
           <Route path="/" element={<Home />} />
@@ -87,6 +86,8 @@ function App() {
           <Route path="/stats" element={<Stats />} />
           <Route path="/error" element={<Error />} />
         </Routes>
+        </div> 
+
       </nav>
 
     </>
